@@ -198,7 +198,7 @@
       margin-bottom: 1.1rem;
     }
 
-    /* ---------- PRICE BREAKDOWN BOX ---------- */
+    /* ---------- PRICE BREAKDOWN ---------- */
     .price-box {
       margin-top: 0.6rem;
       padding: 1rem 1.1rem;
@@ -315,7 +315,7 @@
       opacity: 1;
     }
 
-    /* ---------- ACTION BUTTONS (Submit + Cancel) ---------- */
+    /* action buttons */
     .actions {
       display: flex;
       gap: 0.75rem;
@@ -370,8 +370,175 @@
       transform: scale(0.98);
     }
 
-    /* ---------- RESPONSIVE ---------- */
+    /* ============================================================ */
+    /* ---------- TOAST NOTIFICATIONS (NEW) ---------- */
+    /* ============================================================ */
+    .toast-container {
+      position: fixed;
+      top: 1.25rem;
+      right: 1.25rem;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      max-width: 380px;
+      pointer-events: none;
+    }
+
+    .toast {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.85rem;
+      padding: 1rem 1.1rem;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border-radius: 18px;
+      box-shadow: 0 20px 45px -12px rgba(10, 28, 43, 0.35),
+                  0 0 0 1px rgba(10, 28, 43, 0.06);
+      border-left: 4px solid #2d9cdb;
+      pointer-events: auto;
+      animation: toastIn 0.4s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .toast.removing {
+      animation: toastOut 0.35s ease forwards;
+    }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateX(120%) scale(0.95);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) scale(1);
+      }
+    }
+
+    @keyframes toastOut {
+      to {
+        opacity: 0;
+        transform: translateX(120%) scale(0.95);
+      }
+    }
+
+    .toast-icon {
+      flex-shrink: 0;
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      color: #ffffff;
+      background: linear-gradient(135deg, #2d9cdb 0%, #1d7bb0 100%);
+    }
+
+    .toast-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .toast-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: #0a2a3b;
+      margin-bottom: 0.15rem;
+      letter-spacing: -0.01em;
+    }
+
+    .toast-message {
+      font-size: 0.83rem;
+      color: #5e7a8c;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+
+    .toast-close {
+      flex-shrink: 0;
+      background: none;
+      border: none;
+      color: #9eb4c4;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0 0.2rem;
+      line-height: 1;
+      transition: color 0.2s;
+    }
+
+    .toast-close:hover {
+      color: #2c4a5e;
+    }
+
+    /* progress bar (auto-dismiss timer) */
+    .toast-progress {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      height: 3px;
+      background: #2d9cdb;
+      width: 100%;
+      transform-origin: left;
+      animation: toastProgress linear forwards;
+    }
+
+    @keyframes toastProgress {
+      from { transform: scaleX(1); }
+      to   { transform: scaleX(0); }
+    }
+
+    /* Variants */
+    .toast.success {
+      border-left-color: #16a34a;
+    }
+    .toast.success .toast-icon {
+      background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    }
+    .toast.success .toast-progress {
+      background: #22c55e;
+    }
+
+    .toast.error {
+      border-left-color: #dc2626;
+    }
+    .toast.error .toast-icon {
+      background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    }
+    .toast.error .toast-progress {
+      background: #ef4444;
+    }
+
+    .toast.warning {
+      border-left-color: #f59e0b;
+    }
+    .toast.warning .toast-icon {
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    }
+    .toast.warning .toast-progress {
+      background: #f59e0b;
+    }
+
+    .toast.info {
+      border-left-color: #2d9cdb;
+    }
+
+    /* Mobile: toast goes full width at the top */
     @media (max-width: 640px) {
+      .toast-container {
+        top: 0.75rem;
+        right: 0.75rem;
+        left: 0.75rem;
+        max-width: none;
+      }
+
+      .toast {
+        padding: 0.9rem 1rem;
+      }
+
       .page-brand {
         top: 1rem;
         left: 1.25rem;
@@ -394,7 +561,7 @@
       }
 
       .actions {
-        flex-direction: column-reverse; /* Cancel below Submit on mobile */
+        flex-direction: column-reverse;
       }
     }
 
@@ -421,6 +588,9 @@
     Dominion <span class="accent">Transport</span>
   </div>
 
+  <!-- TOAST CONTAINER (where notifications appear) -->
+  <div class="toast-container" id="toastContainer"></div>
+
   <div class="page-wrap">
     <div class="dash-card">
       <h2>Book a Service</h2>
@@ -428,7 +598,7 @@
 
       <form id="bookingForm" onsubmit="handleSubmit(event)">
 
-        <!-- 1. VEHICLE TYPE (with base price) -->
+        <!-- 1. VEHICLE TYPE -->
         <div class="input-group">
           <label for="vehicle">Vehicle Type</label>
           <select id="vehicle" name="vehicle" required onchange="updatePrice()">
@@ -467,7 +637,7 @@
           </div>
         </div>
 
-        <!-- 3. STATE (with price) -->
+        <!-- 3. STATE -->
         <div class="input-group">
           <label for="state">State</label>
           <select id="state" name="state" required onchange="updatePrice()">
@@ -591,7 +761,7 @@
           </div>
         </div>
 
-        <!-- 6. ACTION BUTTONS -->
+        <!-- 6. ACTIONS -->
         <div class="actions">
           <button type="button" class="cancel-btn" onclick="cancelBooking()">Cancel</button>
           <button type="submit" class="submit-btn">Submit Booking</button>
@@ -602,7 +772,52 @@
   </div>
 
   <script>
+    /* ============================================================ */
+    /* ---------- TOAST NOTIFICATION SYSTEM ---------- */
+    /* ============================================================ */
+    function showToast(title, message, type = 'info', duration = 4000) {
+      const container = document.getElementById('toastContainer');
+
+      const icons = {
+        success: '✓',
+        error:   '✕',
+        warning: '!',
+        info:    'i'
+      };
+
+      const toast = document.createElement('div');
+      toast.className = 'toast ' + type;
+      toast.innerHTML = `
+        <div class="toast-icon">${icons[type] || 'i'}</div>
+        <div class="toast-body">
+          <div class="toast-title">${title}</div>
+          <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close" aria-label="Close">×</button>
+        <div class="toast-progress" style="animation-duration: ${duration}ms;"></div>
+      `;
+
+      container.appendChild(toast);
+
+      // Auto-dismiss
+      const autoRemove = setTimeout(() => removeToast(toast), duration);
+
+      // Close button
+      toast.querySelector('.toast-close').addEventListener('click', () => {
+        clearTimeout(autoRemove);
+        removeToast(toast);
+      });
+    }
+
+    function removeToast(toast) {
+      if (toast.classList.contains('removing')) return;
+      toast.classList.add('removing');
+      setTimeout(() => toast.remove(), 350);
+    }
+
+    /* ============================================================ */
     /* ---------- TASK: show/hide "Others" textarea ---------- */
+    /* ============================================================ */
     function toggleOtherTask() {
       const taskSelect = document.getElementById('task');
       const otherBox   = document.getElementById('otherTaskBox');
@@ -631,26 +846,23 @@
       const statePrice   = stateOpt   ? Number(stateOpt.getAttribute('data-price'))   || 0 : 0;
       const total        = vehiclePrice + statePrice;
 
-      const priceBox = document.getElementById('priceBox');
+      const priceBox   = document.getElementById('priceBox');
       const rowVehicle = document.getElementById('rowVehicle');
       const rowState   = document.getElementById('rowState');
-      const vehEl = document.getElementById('vehiclePrice');
-      const stEl  = document.getElementById('statePrice');
-      const totEl = document.getElementById('totalPrice');
+      const vehEl      = document.getElementById('vehiclePrice');
+      const stEl       = document.getElementById('statePrice');
+      const totEl      = document.getElementById('totalPrice');
 
-      // Update the row values
       vehEl.textContent = vehiclePrice ? '₦' + vehiclePrice.toLocaleString() : '—';
       stEl.textContent  = statePrice   ? '₦' + statePrice.toLocaleString()   : '—';
       totEl.textContent = '₦' + total.toLocaleString();
 
-      // Show the price box as soon as EITHER field is picked
       if (vehiclePrice > 0 || statePrice > 0) {
         priceBox.classList.add('show');
       } else {
         priceBox.classList.remove('show');
       }
 
-      // Dim the rows that haven't been picked yet
       rowVehicle.classList.toggle('muted', !vehiclePrice);
       rowState.classList.toggle('muted',   !statePrice);
     }
@@ -672,12 +884,13 @@
 
     /* ---------- CANCEL: reset everything ---------- */
     function cancelBooking() {
-      if (!confirm('Cancel this booking? All your details will be cleared.')) return;
+      // Custom confirmation using toast + a simple confirm dialog
+      const ok = window.confirm('Cancel this booking? All your details will be cleared.');
+      if (!ok) return;
 
       const form = document.getElementById('bookingForm');
       form.reset();
 
-      // Hide price box
       document.getElementById('priceBox').classList.remove('show');
       document.getElementById('vehiclePrice').textContent = '—';
       document.getElementById('statePrice').textContent   = '—';
@@ -685,15 +898,14 @@
       document.getElementById('rowVehicle').classList.add('muted');
       document.getElementById('rowState').classList.add('muted');
 
-      // Hide other-task textarea
       document.getElementById('otherTaskBox').classList.remove('show');
       document.getElementById('otherTask').required = false;
 
-      // Hide bank section
       document.getElementById('bankSection').classList.remove('show');
 
-      // Scroll back to top of form
       window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      showToast('Booking cancelled', 'Your form has been cleared.', 'warning', 3000);
     }
 
     /* ---------- SUBMIT ---------- */
@@ -710,34 +922,46 @@
       const name      = document.getElementById('accountName').value;
 
       if (!vehicle || !task || !state) {
-        alert('Please fill in vehicle type, task type, and state.');
+        showToast(
+          'Missing details',
+          'Please fill in vehicle type, task type, and state.',
+          'error',
+          4200
+        );
         return;
       }
 
       if (task === 'other' && !otherTask) {
-        alert('Please describe what you want to do in the "Others" box.');
+        showToast(
+          'Describe your task',
+          'Please type what you want to do in the "Others" box.',
+          'warning',
+          4200
+        );
         return;
       }
 
       if (!bank || !acct || !name) {
-        alert('Please complete the bank payment details (bank, account number, account name).');
+        showToast(
+          'Bank details incomplete',
+          'Please select your bank and enter the account number and account name.',
+          'error',
+          4500
+        );
         return;
       }
 
       const finalTask = task === 'other' ? 'Other: ' + otherTask : task;
 
-      alert(
-        '✅ Booking Submitted!\n\n' +
-        'Vehicle: ' + vehicle + '\n' +
-        'Task: ' + finalTask + '\n' +
-        'State: ' + state + '\n' +
-        'Total: ' + total + '\n' +
-        'Bank: ' + bank + '\n' +
-        'Account: ' + acct + '\n' +
-        'Name: ' + name
+      // Success toast
+      showToast(
+        'Booking confirmed!',
+        `Your ${finalTask} has been booked for ${total}. We'll be in touch shortly.`,
+        'success',
+        5000
       );
 
-      // Later: replace with a fetch() to your Python backend.
+      // Later: replace this with a fetch() to your Python backend.
     }
   </script>
 </body>
