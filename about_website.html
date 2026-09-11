@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dominion Transport Solutions · About</title>
+  <title>Dominion Transport Solutions · Book Rides, Waybills & Deliveries</title>
   <style>
     /* ---------- RESET & BASE ---------- */
     * {
@@ -39,7 +39,6 @@
       -webkit-backdrop-filter: blur(14px);
       box-shadow: 0 4px 24px rgba(10, 42, 59, 0.06);
       z-index: 1000;
-      transition: padding 0.3s ease;
     }
 
     .nav-brand {
@@ -92,7 +91,7 @@
       width: 100%;
     }
 
-    /* ---------- HERO SECTION (FULL SCREEN IMAGE) ---------- */
+    /* ---------- HERO ---------- */
     .hero {
       height: 100vh;
       width: 100%;
@@ -119,7 +118,7 @@
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(10, 28, 43, 0.35) 0%, rgba(10, 28, 43, 0.75) 100%);
+      background: linear-gradient(180deg, rgba(10, 28, 43, 0.4) 0%, rgba(10, 28, 43, 0.8) 100%);
       z-index: 2;
     }
 
@@ -134,14 +133,22 @@
     }
 
     @keyframes fadeUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: #7dc9f0;
+      background: rgba(45, 156, 219, 0.15);
+      border: 1px solid rgba(125, 201, 240, 0.4);
+      padding: 0.45rem 1.1rem;
+      border-radius: 60px;
+      margin-bottom: 1.5rem;
     }
 
     .hero-content h1 {
@@ -149,8 +156,8 @@
       font-weight: 700;
       letter-spacing: -0.03em;
       line-height: 1.1;
-      margin-bottom: 1rem;
-      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+      margin-bottom: 1.25rem;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
     }
 
     .hero-content h1 span {
@@ -159,7 +166,7 @@
     }
 
     .hero-content p {
-      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-size: clamp(1rem, 1.8vw, 1.2rem);
       font-weight: 400;
       color: rgba(255, 255, 255, 0.9);
       max-width: 640px;
@@ -175,7 +182,7 @@
       transform: translateX(-50%);
       z-index: 3;
       color: rgba(255, 255, 255, 0.85);
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
       display: flex;
@@ -194,25 +201,19 @@
     }
 
     @keyframes bounce {
-      0%, 20%, 50%, 80%, 100% {
-        transform: translateX(-50%) translateY(0);
-      }
-      40% {
-        transform: translateX(-50%) translateY(-10px);
-      }
-      60% {
-        transform: translateX(-50%) translateY(-5px);
-      }
+      0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+      40% { transform: translateX(-50%) translateY(-10px); }
+      60% { transform: translateX(-50%) translateY(-5px); }
     }
 
-    /* ---------- MAIN CONTENT ---------- */
-    .main-content {
+    /* ---------- HOW IT WORKS ---------- */
+    .how-it-works {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 6rem 2rem 4rem;
+      padding: 6rem 2rem 3rem;
+      text-align: center;
     }
 
-    /* section title */
     .section-label {
       display: inline-block;
       font-size: 0.78rem;
@@ -237,16 +238,74 @@
     .section-desc {
       font-size: 1.05rem;
       color: #5e7a8c;
-      max-width: 700px;
-      margin-bottom: 3.5rem;
+      max-width: 640px;
+      margin: 0 auto 3.5rem;
     }
 
-    /* features grid */
+    /* steps row */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 6rem;
+      text-align: left;
+    }
+
+    .step {
+      background: #ffffff;
+      padding: 1.75rem 1.5rem;
+      border-radius: 22px;
+      border: 1px solid rgba(45, 156, 219, 0.1);
+      box-shadow: 0 14px 28px -14px rgba(10, 42, 59, 0.12);
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .step:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 22px 40px -16px rgba(10, 42, 59, 0.22);
+    }
+
+    .step-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #2d9cdb 0%, #1d7bb0 100%);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 18px -6px rgba(45, 156, 219, 0.5);
+    }
+
+    .step h4 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #0a2a3b;
+      margin-bottom: 0.4rem;
+    }
+
+    .step p {
+      font-size: 0.88rem;
+      color: #5e7a8c;
+      line-height: 1.55;
+    }
+
+    /* ---------- SERVICES ---------- */
+    .services-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 3rem 2rem 5rem;
+    }
+
     .features {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 1.75rem;
-      margin-bottom: 6rem;
+      margin-top: 2.5rem;
     }
 
     .feature-card {
@@ -290,8 +349,61 @@
       line-height: 1.65;
     }
 
-    /* ---------- CTA SECTION (SIGN UP ONLY) ---------- */
+    /* ---------- VEHICLES STRIP ---------- */
+    .vehicles-strip {
+      background: linear-gradient(145deg, #0a1c2b 0%, #12354d 100%);
+      padding: 4rem 2rem;
+      text-align: center;
+      color: #ffffff;
+    }
+
+    .vehicles-strip h3 {
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .vehicles-strip p {
+      font-size: 1rem;
+      color: rgba(255, 255, 255, 0.75);
+      max-width: 560px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .vehicle-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .vehicle-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1.3rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(125, 201, 240, 0.35);
+      border-radius: 60px;
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: #e8f4fc;
+      transition: all 0.25s ease;
+    }
+
+    .vehicle-pill:hover {
+      background: rgba(45, 156, 219, 0.2);
+      border-color: #7dc9f0;
+      transform: translateY(-2px);
+    }
+
+    /* ---------- CTA SECTION ---------- */
     .cta-section {
+      max-width: 1100px;
+      margin: 5rem auto 0;
       background: linear-gradient(145deg, #0a1c2b 0%, #12354d 100%);
       border-radius: 36px;
       padding: 4.5rem 2rem;
@@ -352,7 +464,6 @@
       flex-wrap: wrap;
     }
 
-    /* shared button style */
     .btn {
       display: inline-flex;
       align-items: center;
@@ -370,7 +481,6 @@
       white-space: nowrap;
     }
 
-    /* sign up – bright accent (now the only button) */
     .btn-signup {
       background: #2d9cdb;
       color: #ffffff;
@@ -395,7 +505,7 @@
       color: #839eae;
       background: #f7fafd;
       border-top: 1px solid #e2edf5;
-      margin-top: 4rem;
+      margin-top: 5rem;
     }
 
     .footer strong {
@@ -405,54 +515,22 @@
 
     /* ---------- RESPONSIVE ---------- */
     @media (max-width: 768px) {
-      .navbar {
-        padding: 0.85rem 1.25rem;
-      }
-
-      .nav-links {
-        gap: 1.2rem;
-      }
-
-      .nav-links a {
-        font-size: 0.82rem;
-      }
-
-      .hero-content h1 {
-        font-size: 2.2rem;
-      }
-
-      .main-content {
-        padding: 4rem 1.25rem 2rem;
-      }
-
-      .cta-section {
-        padding: 3.5rem 1.5rem;
-        border-radius: 28px;
-      }
-
-      .cta-buttons {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .btn {
-        width: 100%;
-        max-width: 320px;
-      }
+      .navbar { padding: 0.85rem 1.25rem; }
+      .nav-links { gap: 1.2rem; }
+      .nav-links a { font-size: 0.82rem; }
+      .hero-content h1 { font-size: 2.2rem; }
+      .how-it-works { padding: 4rem 1.25rem 2rem; }
+      .services-wrap { padding: 2rem 1.25rem 3rem; }
+      .cta-section { padding: 3.5rem 1.5rem; border-radius: 28px; margin: 4rem 1.25rem 0; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .btn { width: 100%; max-width: 320px; }
     }
 
     @media (max-width: 480px) {
-      .nav-links {
-        display: none;
-      }
-
-      .hero-content p {
-        font-size: 0.95rem;
-      }
-
-      .feature-card {
-        padding: 1.8rem 1.4rem;
-      }
+      .nav-links { display: none; }
+      .hero-content p { font-size: 0.95rem; }
+      .feature-card { padding: 1.8rem 1.4rem; }
+      .step { padding: 1.5rem 1.25rem; }
     }
   </style>
 </head>
@@ -464,18 +542,19 @@
       Dominion <span class="accent">Transport</span>
     </a>
     <ul class="nav-links">
-      <li><a href="#about">About</a></li>
-      <li><a href="#features">Services</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#how">How it works</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#book">Book now</a></li>
     </ul>
   </nav>
 
-  <!-- ---------- HERO (FULL SCREEN IMAGE) ---------- -->
-  <section class="hero" id="about">
+  <!-- ---------- HERO ---------- -->
+  <section class="hero">
     <img src="ChatGPTImage.png" alt="Dominion Transport">
     <div class="hero-content">
-      <h1>Moving the World,<br><span>One Delivery at a Time.</span></h1>
-      <p>Dominion Transport Solutions connects people, businesses, and communities with reliable, efficient, and modern logistics — across the globe.</p>
+      <div class="hero-tag">Book a vehicle in seconds</div>
+      <h1>Any Vehicle.<br><span>Any Task. Any State.</span></h1>
+      <p>From a quick ride across town to moving goods interstate — Dominion Transport Solutions gets your booking done fast and transparently. Pick your vehicle, choose your task, see the price, pay, and go.</p>
     </div>
     <div class="scroll-hint">
       <span>Scroll to explore</span>
@@ -483,65 +562,108 @@
     </div>
   </section>
 
-  <!-- ---------- MAIN CONTENT ---------- -->
-  <main class="main-content">
-
-    <!-- ABOUT -->
-    <span class="section-label">Who We Are</span>
-    <h2 class="section-title">Built for the future of transport.</h2>
+  <!-- ---------- HOW IT WORKS ---------- -->
+  <section class="how-it-works" id="how">
+    <span class="section-label">How it works</span>
+    <h2 class="section-title">Book a vehicle in four simple steps.</h2>
     <p class="section-desc">
-      From coast to coast and across borders, Dominion Transport Solutions delivers more than packages — we deliver trust. Our network of drivers, partners, and smart logistics technology makes every shipment safe, tracked, and on time.
+      Whether you're booking a ride, sending a waybill, or moving goods across states — the process is the same. Simple, fast, and clear.
     </p>
 
-    <!-- FEATURES / SERVICES -->
-    <div class="features" id="features">
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h4>Choose your vehicle</h4>
+        <p>Bike, car, SUV, van, or truck — pick the ride that fits your load and your budget.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h4>Pick your task</h4>
+        <p>Booking a ride, waybilling a package, transferring goods, or something else entirely — just tell us what you need.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h4>See your price instantly</h4>
+        <p>We add the vehicle fee to your destination state fee and show you the total — no hidden charges, no surprises.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h4>Pay and we move</h4>
+        <p>Pay securely through your bank, upload your receipt, and our driver is on the way.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- SERVICES ---------- -->
+  <section class="services-wrap" id="services">
+    <span class="section-label">What we offer</span>
+    <h2 class="section-title">Built for rides, waybills, and everything in between.</h2>
+    <p class="section-desc">
+      Dominion Transport Solutions handles the everyday transport needs of individuals and small businesses — quickly, fairly, and without the runaround.
+    </p>
+
+    <div class="features">
       <div class="feature-card">
-        <div class="feature-icon">🚚</div>
-        <h3>Nationwide Delivery</h3>
-        <p>Fast, dependable ground and air freight across all 50 states and beyond, with real-time tracking on every order.</p>
+        <div class="feature-icon">🚕</div>
+        <h3>Booking a Ride</h3>
+        <p>Need to get somewhere fast? Book a bike, car, or SUV and we'll match you with a driver in your area — no waiting, no haggling.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📦</div>
-        <h3>Smart Warehousing</h3>
-        <p>Secure, climate-controlled storage facilities with AI-powered inventory management and same-day dispatch.</p>
+        <h3>Waybilling</h3>
+        <p>Send a parcel or package to any state in Nigeria with a proper waybill. Tracked, insured, and delivered without the stress.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🌍</div>
-        <h3>Global Freight</h3>
-        <p>International shipping made simple — customs clearance, ocean freight, and air cargo all under one roof.</p>
+        <div class="feature-icon">🔄</div>
+        <h3>Transferring of Goods</h3>
+        <p>Moving goods from one place to another? Choose your truck size and destination, and we'll handle the rest.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>Express Logistics</h3>
-        <p>Urgent shipment? Our express fleet guarantees priority pickup and delivery within hours, not days.</p>
+        <div class="feature-icon">🚚</div>
+        <h3>Interstate Haulage</h3>
+        <p>From Lagos to Kano, Abuja to Port Harcourt — our trucks move your cargo safely across every state in the country.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>Live Analytics</h3>
-        <p>Track every mile, monitor fuel efficiency, and optimise routes with our cloud-based dashboard.</p>
+        <div class="feature-icon">✏️</div>
+        <h3>Custom Requests</h3>
+        <p>Something that doesn't fit into the usual boxes? Type your own request and we'll make it happen.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🤝</div>
-        <h3>Dedicated Support</h3>
-        <p>A real human is available 24/7 to help with quotes, tracking, and any logistics challenge you face.</p>
+        <div class="feature-icon">💰</div>
+        <h3>Transparent Pricing</h3>
+        <p>See exactly what you pay before you commit. Vehicle fee + state fee = total. That's it.</p>
       </div>
     </div>
+  </section>
 
-    <!-- ---------- CTA: SIGN UP ONLY ---------- -->
-    <section class="cta-section" id="contact">
-      <h2>Ready to move with Dominion Transport solution?</h2>
-      <p>Join thousands of businesses and individuals who trust Dominion Transport Solutions for their logistics needs.</p>
-      <div class="cta-buttons">
-        <!-- SIGN UP BUTTON → redirects to login.html -->
-        <a href="login.html" class="btn btn-signup">Sign Up Free</a>
-      </div>
-    </section>
+  <!-- ---------- VEHICLES STRIP ---------- -->
+  <section class="vehicles-strip">
+    <h3>Vehicles for every job.</h3>
+    <p>Whatever you need to move, whatever the distance — we have the right ride for it.</p>
 
-  </main>
+    <div class="vehicle-pills">
+      <div class="vehicle-pill">🏍️ Bike / Motorcycle</div>
+      <div class="vehicle-pill">🚗 Car (Sedan)</div>
+      <div class="vehicle-pill">🚙 SUV</div>
+      <div class="vehicle-pill">🚐 Van</div>
+      <div class="vehicle-pill">🚚 Small Truck</div>
+      <div class="vehicle-pill">🚛 Large Truck</div>
+      <div class="vehicle-pill">🚛 Trailer / Container</div>
+    </div>
+  </section>
+
+  <!-- ---------- CTA ---------- -->
+  <section class="cta-section" id="book">
+    <h2>Ready to book with Dominion?</h2>
+    <p>Sign up for free, and book your first ride, waybill, or goods transfer in under a minute.</p>
+    <div class="cta-buttons">
+      <a href="login.html" class="btn btn-signup">Sign Up Free</a>
+    </div>
+  </section>
 
   <!-- ---------- FOOTER ---------- -->
   <footer class="footer">
-    &copy; 2025 <strong>Dominion Transport Solutions</strong>. All rights reserved. · Built for reliability.
+    &copy; 2025 <strong>Dominion Transport Solutions</strong>. All rights reserved. · Book rides, waybills & goods transfers nationwide.
   </footer>
 
 </body>

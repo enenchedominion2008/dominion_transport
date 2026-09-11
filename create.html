@@ -24,7 +24,6 @@
       background: #f8faff;
     }
 
-    /* main split container */
     .split-layout {
       display: flex;
       height: 100vh;
@@ -32,7 +31,6 @@
       background: #f8faff;
     }
 
-    /* ---- LEFT SIDE: IMAGE ---- */
     .image-half {
       flex: 1 1 50%;
       position: relative;
@@ -81,7 +79,6 @@
       white-space: nowrap;
     }
 
-    /* ---- RIGHT SIDE: FORM ---- */
     .form-half {
       flex: 1 1 50%;
       display: flex;
@@ -90,7 +87,7 @@
       background: #ffffff;
       padding: 2rem;
       box-shadow: -6px 0 28px rgba(0, 0, 0, 0.04);
-      overflow-y: auto; /* allow scroll if form is tall */
+      overflow-y: auto;
     }
 
     .login-card {
@@ -107,7 +104,6 @@
       box-shadow: 0 28px 56px -14px rgba(10, 28, 43, 0.25);
     }
 
-    /* brand header */
     .brand-header {
       margin-bottom: 0.5rem;
       display: flex;
@@ -149,7 +145,6 @@
       padding-left: 0.75rem;
     }
 
-    /* form fields */
     .input-group {
       margin-bottom: 1.25rem;
       display: flex;
@@ -188,7 +183,6 @@
       font-weight: 300;
     }
 
-    /* file upload */
     .file-upload {
       position: relative;
       display: flex;
@@ -243,7 +237,6 @@
       word-break: break-all;
     }
 
-    /* name row: first + last side by side */
     .name-row {
       display: flex;
       gap: 1rem;
@@ -254,7 +247,6 @@
       margin-bottom: 0;
     }
 
-    /* signup button */
     .login-btn {
       width: 100%;
       padding: 1rem;
@@ -270,6 +262,9 @@
       box-shadow: 0 10px 20px -8px rgba(10, 42, 59, 0.35);
       margin-top: 2rem;
       margin-bottom: 1.5rem;
+      display: block;
+      text-align: center;
+      text-decoration: none;
     }
 
     .login-btn:hover {
@@ -281,7 +276,6 @@
       transform: scale(0.98);
     }
 
-    /* footer note */
     .form-footer {
       text-align: center;
       font-size: 0.8rem;
@@ -298,9 +292,6 @@
       text-decoration: underline;
     }
 
-    /* ============================================================ */
-    /* ---------- RESPONSIVE: STACK & SCROLL ON MOBILE ---------- */
-    /* ============================================================ */
     @media (max-width: 700px) {
       body {
         height: auto;
@@ -391,13 +382,11 @@
 </head>
 <body>
   <div class="split-layout">
-    <!-- LEFT: IMAGE -->
     <div class="image-half">
       <img src="ChatGPT.png" alt="Dominion Transport">
       <div class="image-brand">Dominion Transport</div>
     </div>
 
-    <!-- RIGHT: CREATE ACCOUNT FORM -->
     <div class="form-half">
       <div class="login-card">
         <div class="brand-header">
@@ -407,8 +396,8 @@
         <h2>Create account</h2>
         <div class="subhead">Join Dominion Transport Solutions in a few steps</div>
 
-        <form action="#" method="post" enctype="multipart/form-data">
-          <!-- first & last name -->
+        <!-- form now goes to dashbord.html -->
+        <form action="dashbord.html" method="get" enctype="multipart/form-data">
           <div class="name-row">
             <div class="input-group">
               <label for="firstname">First name</label>
@@ -420,13 +409,11 @@
             </div>
           </div>
 
-          <!-- date of birth -->
           <div class="input-group" style="margin-top: 1.25rem;">
             <label for="dob">Date of birth</label>
             <input type="date" id="dob" name="dob" required>
           </div>
 
-          <!-- NIN -->
           <div class="input-group">
             <label for="nin">NIN (National Identification Number)</label>
             <input
@@ -442,7 +429,6 @@
             >
           </div>
 
-          <!-- NIN photo upload -->
           <div class="input-group">
             <label for="nin-photo">NIN photo / slip</label>
             <label class="file-upload" for="nin-photo">
@@ -461,7 +447,6 @@
             </label>
           </div>
 
-          <!-- submit -->
           <button type="submit" class="login-btn">Create my account</button>
 
           <div class="form-footer">
@@ -472,7 +457,6 @@
     </div>
   </div>
 
-  <!-- small script to display chosen filename -->
   <script>
     function showFileName(event) {
       const file = event.target.files[0];
