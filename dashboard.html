@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dominion Transport Solutions · Dashboard</title>
+  <style>
+    /* reset & base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      min-height: 100%;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      width: 100%;
+      overflow-x: hidden;
+      background: #0a1c2b;
+    }
+
+    /* ---- FULL-PAGE BACKGROUND IMAGE ---- */
+    .page-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .page-bg img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .page-bg::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        135deg,
+        rgba(10, 28, 43, 0.78) 0%,
+        rgba(10, 28, 43, 0.55) 50%,
+        rgba(10, 28, 43, 0.82) 100%
+      );
+      z-index: 1;
+    }
+
+    /* floating brand */
+    .page-brand {
+      position: fixed;
+      top: 1.5rem;
+      left: 2rem;
+      z-index: 5;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1.15rem;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .page-brand .accent {
+      font-weight: 300;
+      color: #7dc9f0;
+    }
+
+    /* centered form */
+    .page-wrap {
+      position: relative;
+      z-index: 2;
+      min-height: 100vh;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4rem 1.5rem 3rem;
+    }
+
+    .dash-card {
+      width: 100%;
+      max-width: 540px;
+      padding: 2.25rem 2rem;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 32px;
+      box-shadow: 0 30px 70px -20px rgba(0, 0, 0, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      animation: cardIn 0.6s cubic-bezier(0.2, 0.9, 0.3, 1) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .dash-card h2 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #0b2a3b;
+      margin-top: 0.15rem;
+    }
+
+    .dash-card .subhead {
+      font-size: 0.88rem;
+      color: #5e7a8c;
+      margin-bottom: 1.75rem;
+      font-weight: 400;
+      border-left: 3px solid #2d9cdb;
+      padding-left: 0.75rem;
+    }
+
+    /* form fields */
+    .input-group {
+      margin-bottom: 1.1rem;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .input-group label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: #2c4a5e;
+      margin-bottom: 0.4rem;
+    }
+
+    .input-group input,
+    .input-group select,
+    .input-group textarea {
+      padding: 0.8rem 1rem;
+      font-size: 0.92rem;
+      border: 1.5px solid #dae2e9;
+      border-radius: 14px;
+      background: #f9fcff;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      font-family: inherit;
+      color: #0b2a3b;
+    }
+
+    .input-group input:focus,
+    .input-group select:focus,
+    .input-group textarea:focus {
+      border-color: #2d9cdb;
+      background: #ffffff;
+      box-shadow: 0 0 0 4px rgba(45, 156, 219, 0.12);
+    }
+
+    .input-group input::placeholder,
+    .input-group textarea::placeholder {
+      color: #9eb4c4;
+      font-weight: 300;
+    }
+
+    .input-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235e7a8c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1rem;
+      cursor: pointer;
+    }
+
+    .input-group textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.5;
+    }
+
+    /* collapsible "other task" */
+    .other-task {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease, margin 0.3s ease;
+      margin-bottom: 0;
+    }
+
+    .other-task.show {
+      max-height: 200px;
+      opacity: 1;
+      margin-bottom: 1.1rem;
+    }
+
+    /* ---------- PRICE BREAKDOWN BOX ---------- */
+    .price-box {
+      margin-top: 0.6rem;
+      padding: 1rem 1.1rem;
+      background: linear-gradient(135deg, #eaf6ff 0%, #d8eeff 100%);
+      border: 1.5px solid #b8dffa;
+      border-radius: 16px;
+      opacity: 0;
+      max-height: 0;
+      overflow: hidden;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin-top: 0;
+      transition: all 0.35s ease;
+    }
+
+    .price-box.show {
+      opacity: 1;
+      max-height: 260px;
+      padding: 1rem 1.1rem;
+      margin-top: 0.6rem;
+    }
+
+    .price-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      padding: 0.3rem 0;
+      color: #2c4a5e;
+    }
+
+    .price-row .label {
+      font-weight: 500;
+    }
+
+    .price-row .value {
+      font-weight: 600;
+      color: #0b2a3b;
+    }
+
+    .price-row.muted {
+      opacity: 0.55;
+    }
+
+    .price-divider {
+      height: 1px;
+      background: #b8dffa;
+      margin: 0.5rem 0;
+    }
+
+    .price-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+      padding-top: 0.4rem;
+    }
+
+    .price-total .label {
+      font-weight: 600;
+      color: #0a2a3b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.78rem;
+    }
+
+    .price-total .value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #0a2a3b;
+    }
+
+    /* pay-through-bank button */
+    .pay-btn {
+      width: 100%;
+      padding: 0.9rem;
+      margin-top: 0.5rem;
+      margin-bottom: 1.1rem;
+      background: #2d9cdb;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      letter-spacing: 0.03em;
+      box-shadow: 0 10px 20px -8px rgba(45, 156, 219, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .pay-btn:hover {
+      background: #1d7bb0;
+      box-shadow: 0 14px 26px -10px rgba(45, 156, 219, 0.65);
+    }
+
+    .pay-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* bank section */
+    .bank-section {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.4s ease, opacity 0.3s ease;
+    }
+
+    .bank-section.show {
+      max-height: 800px;
+      opacity: 1;
+    }
+
+    /* ---------- ACTION BUTTONS (Submit + Cancel) ---------- */
+    .actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: 0.75rem;
+    }
+
+    .submit-btn {
+      flex: 2;
+      padding: 1rem;
+      background: #0a2a3b;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 1rem;
+      border: none;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      letter-spacing: 0.03em;
+      box-shadow: 0 10px 20px -8px rgba(10, 42, 59, 0.35);
+    }
+
+    .submit-btn:hover {
+      background: #1d4b63;
+      box-shadow: 0 14px 26px -10px rgba(10, 42, 59, 0.45);
+    }
+
+    .submit-btn:active {
+      transform: scale(0.98);
+    }
+
+    .cancel-btn {
+      flex: 1;
+      padding: 1rem;
+      background: transparent;
+      color: #5e7a8c;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border: 1.5px solid #dae2e9;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      letter-spacing: 0.03em;
+    }
+
+    .cancel-btn:hover {
+      background: #f3f7fa;
+      border-color: #b8d4e8;
+      color: #2c4a5e;
+    }
+
+    .cancel-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 640px) {
+      .page-brand {
+        top: 1rem;
+        left: 1.25rem;
+        font-size: 1rem;
+      }
+
+      .page-wrap {
+        padding: 4rem 1rem 2rem;
+        align-items: flex-start;
+      }
+
+      .dash-card {
+        padding: 1.75rem 1.25rem;
+        border-radius: 26px;
+        margin-top: 1rem;
+      }
+
+      .dash-card h2 {
+        font-size: 1.45rem;
+      }
+
+      .actions {
+        flex-direction: column-reverse; /* Cancel below Submit on mobile */
+      }
+    }
+
+    @media (max-width: 400px) {
+      .dash-card {
+        padding: 1.5rem 1rem;
+      }
+
+      .input-group input,
+      .input-group select,
+      .input-group textarea {
+        padding: 0.72rem 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page-bg">
+    <img src="DOMINION.png" alt="Dominion Transport">
+  </div>
+
+  <div class="page-brand">
+    Dominion <span class="accent">Transport</span>
+  </div>
+
+  <div class="page-wrap">
+    <div class="dash-card">
+      <h2>Book a Service</h2>
+      <div class="subhead">Fill in your trip details to get started</div>
+
+      <form id="bookingForm" onsubmit="handleSubmit(event)">
+
+        <!-- 1. VEHICLE TYPE (with base price) -->
+        <div class="input-group">
+          <label for="vehicle">Vehicle Type</label>
+          <select id="vehicle" name="vehicle" required onchange="updatePrice()">
+            <option value="" disabled selected>Select vehicle type</option>
+            <option value="bike"        data-price="5000">🏍️ Bike / Motorcycle — ₦5,000</option>
+            <option value="car"         data-price="10000">🚗 Car (Sedan) — ₦10,000</option>
+            <option value="suv"         data-price="15000">🚙 SUV — ₦15,000</option>
+            <option value="van"         data-price="18000">🚐 Van — ₦18,000</option>
+            <option value="truck-small" data-price="25000">🚚 Small Truck — ₦25,000</option>
+            <option value="truck-large" data-price="40000">🚛 Large Truck — ₦40,000</option>
+            <option value="trailer"     data-price="60000">🚛 Trailer / Container — ₦60,000</option>
+          </select>
+        </div>
+
+        <!-- 2. TASK TYPE -->
+        <div class="input-group">
+          <label for="task">Task Type</label>
+          <select id="task" name="task" required onchange="toggleOtherTask()">
+            <option value="" disabled selected>Select type of task</option>
+            <option value="ride">🚕 Booking a Ride</option>
+            <option value="waybill">📦 Waybilling</option>
+            <option value="transfer">🔄 Transferring of Goods</option>
+            <option value="other">✏️ Others (type your own)</option>
+          </select>
+        </div>
+
+        <!-- CUSTOM TASK -->
+        <div class="other-task" id="otherTaskBox">
+          <div class="input-group" style="margin-bottom: 0;">
+            <label for="otherTask">Describe what you want to do</label>
+            <textarea
+              id="otherTask"
+              name="otherTask"
+              placeholder="e.g. Moving furniture from Abuja to Lagos, urgent delivery of documents..."
+            ></textarea>
+          </div>
+        </div>
+
+        <!-- 3. STATE (with price) -->
+        <div class="input-group">
+          <label for="state">State</label>
+          <select id="state" name="state" required onchange="updatePrice()">
+            <option value="" disabled selected>Select your state</option>
+            <option value="abia"        data-price="15000">Abia — ₦15,000</option>
+            <option value="adamawa"     data-price="28000">Adamawa — ₦28,000</option>
+            <option value="akwa-ibom"   data-price="22000">Akwa Ibom — ₦22,000</option>
+            <option value="anambra"     data-price="16000">Anambra — ₦16,000</option>
+            <option value="bauchi"      data-price="27000">Bauchi — ₦27,000</option>
+            <option value="bayelsa"     data-price="23000">Bayelsa — ₦23,000</option>
+            <option value="benue"       data-price="24000">Benue — ₦24,000</option>
+            <option value="borno"       data-price="35000">Borno — ₦35,000</option>
+            <option value="cross-river" data-price="21000">Cross River — ₦21,000</option>
+            <option value="delta"       data-price="17000">Delta — ₦17,000</option>
+            <option value="ebonyi"      data-price="18000">Ebonyi — ₦18,000</option>
+            <option value="edo"         data-price="15000">Edo — ₦15,000</option>
+            <option value="ekiti"       data-price="14000">Ekiti — ₦14,000</option>
+            <option value="enugu"       data-price="16000">Enugu — ₦16,000</option>
+            <option value="fct"         data-price="10000">FCT - Abuja — ₦10,000</option>
+            <option value="gombe"       data-price="29000">Gombe — ₦29,000</option>
+            <option value="imo"         data-price="17000">Imo — ₦17,000</option>
+            <option value="jigawa"      data-price="30000">Jigawa — ₦30,000</option>
+            <option value="kaduna"      data-price="25000">Kaduna — ₦25,000</option>
+            <option value="kano"        data-price="26000">Kano — ₦26,000</option>
+            <option value="katsina"     data-price="29000">Katsina — ₦29,000</option>
+            <option value="kebbi"       data-price="31000">Kebbi — ₦31,000</option>
+            <option value="kogi"        data-price="13000">Kogi — ₦13,000</option>
+            <option value="kwara"       data-price="14000">Kwara — ₦14,000</option>
+            <option value="lagos"       data-price="8000">Lagos — ₦8,000</option>
+            <option value="nasarawa"    data-price="20000">Nasarawa — ₦20,000</option>
+            <option value="niger"       data-price="22000">Niger — ₦22,000</option>
+            <option value="ogun"        data-price="10000">Ogun — ₦10,000</option>
+            <option value="ondo"        data-price="13000">Ondo — ₦13,000</option>
+            <option value="osun"        data-price="14000">Osun — ₦14,000</option>
+            <option value="oyo"         data-price="12000">Oyo — ₦12,000</option>
+            <option value="plateau"     data-price="25000">Plateau — ₦25,000</option>
+            <option value="rivers"      data-price="18000">Rivers — ₦18,000</option>
+            <option value="sokoto"      data-price="32000">Sokoto — ₦32,000</option>
+            <option value="taraba"      data-price="29000">Taraba — ₦29,000</option>
+            <option value="yobe"        data-price="34000">Yobe — ₦34,000</option>
+            <option value="zamfara"     data-price="33000">Zamfara — ₦33,000</option>
+          </select>
+        </div>
+
+        <!-- PRICE BREAKDOWN -->
+        <div class="price-box" id="priceBox">
+          <div class="price-row" id="rowVehicle">
+            <span class="label">Vehicle</span>
+            <span class="value" id="vehiclePrice">—</span>
+          </div>
+          <div class="price-row" id="rowState">
+            <span class="label">State</span>
+            <span class="value" id="statePrice">—</span>
+          </div>
+          <div class="price-divider"></div>
+          <div class="price-total">
+            <span class="label">Total</span>
+            <span class="value" id="totalPrice">₦0</span>
+          </div>
+        </div>
+
+        <!-- 4. PAY THROUGH BANK -->
+        <button type="button" class="pay-btn" id="payBtn" onclick="toggleBank()">
+          💳 Pay through Bank
+        </button>
+
+        <!-- 5. BANK DETAILS -->
+        <div class="bank-section" id="bankSection">
+          <div class="input-group">
+            <label for="bank">Select Bank</label>
+            <select id="bank" name="bank">
+              <option value="" disabled selected>Choose your bank</option>
+              <option value="access">Access Bank</option>
+              <option value="citibank">Citibank Nigeria</option>
+              <option value="ecobank">Ecobank Nigeria</option>
+              <option value="fidelity">Fidelity Bank</option>
+              <option value="fcmb">First City Monument Bank (FCMB)</option>
+              <option value="firstbank">First Bank of Nigeria</option>
+              <option value="gtbank">Guaranty Trust Bank (GTB)</option>
+              <option value="heritage">Heritage Bank</option>
+              <option value="keystone">Keystone Bank</option>
+              <option value="kuda">Kuda Bank</option>
+              <option value="opay">OPay</option>
+              <option value="palmpay">PalmPay</option>
+              <option value="polaris">Polaris Bank</option>
+              <option value="providus">Providus Bank</option>
+              <option value="stanbic">Stanbic IBTC Bank</option>
+              <option value="standard">Standard Chartered</option>
+              <option value="sterling">Sterling Bank</option>
+              <option value="uba">United Bank for Africa (UBA)</option>
+              <option value="union">Union Bank</option>
+              <option value="unity">Unity Bank</option>
+              <option value="wema">Wema Bank</option>
+              <option value="zenith">Zenith Bank</option>
+            </select>
+          </div>
+
+          <div class="input-group">
+            <label for="accountNumber">Account Number</label>
+            <input
+              type="text"
+              id="accountNumber"
+              name="accountNumber"
+              placeholder="0123456789"
+              inputmode="numeric"
+              pattern="[0-9]{10}"
+              maxlength="10"
+              title="Account number must be 10 digits"
+            >
+          </div>
+
+          <div class="input-group">
+            <label for="accountName">Account Name</label>
+            <input
+              type="text"
+              id="accountName"
+              name="accountName"
+              placeholder="Full name on account"
+              autocomplete="name"
+            >
+          </div>
+        </div>
+
+        <!-- 6. ACTION BUTTONS -->
+        <div class="actions">
+          <button type="button" class="cancel-btn" onclick="cancelBooking()">Cancel</button>
+          <button type="submit" class="submit-btn">Submit Booking</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <script>
+    /* ---------- TASK: show/hide "Others" textarea ---------- */
+    function toggleOtherTask() {
+      const taskSelect = document.getElementById('task');
+      const otherBox   = document.getElementById('otherTaskBox');
+      const otherInput = document.getElementById('otherTask');
+
+      if (taskSelect.value === 'other') {
+        otherBox.classList.add('show');
+        otherInput.required = true;
+        setTimeout(() => otherInput.focus(), 300);
+      } else {
+        otherBox.classList.remove('show');
+        otherInput.required = false;
+        otherInput.value = '';
+      }
+    }
+
+    /* ---------- PRICE: vehicle + state = total ---------- */
+    function updatePrice() {
+      const vehicleSelect = document.getElementById('vehicle');
+      const stateSelect   = document.getElementById('state');
+
+      const vehicleOpt = vehicleSelect.options[vehicleSelect.selectedIndex];
+      const stateOpt   = stateSelect.options[stateSelect.selectedIndex];
+
+      const vehiclePrice = vehicleOpt ? Number(vehicleOpt.getAttribute('data-price')) || 0 : 0;
+      const statePrice   = stateOpt   ? Number(stateOpt.getAttribute('data-price'))   || 0 : 0;
+      const total        = vehiclePrice + statePrice;
+
+      const priceBox = document.getElementById('priceBox');
+      const rowVehicle = document.getElementById('rowVehicle');
+      const rowState   = document.getElementById('rowState');
+      const vehEl = document.getElementById('vehiclePrice');
+      const stEl  = document.getElementById('statePrice');
+      const totEl = document.getElementById('totalPrice');
+
+      // Update the row values
+      vehEl.textContent = vehiclePrice ? '₦' + vehiclePrice.toLocaleString() : '—';
+      stEl.textContent  = statePrice   ? '₦' + statePrice.toLocaleString()   : '—';
+      totEl.textContent = '₦' + total.toLocaleString();
+
+      // Show the price box as soon as EITHER field is picked
+      if (vehiclePrice > 0 || statePrice > 0) {
+        priceBox.classList.add('show');
+      } else {
+        priceBox.classList.remove('show');
+      }
+
+      // Dim the rows that haven't been picked yet
+      rowVehicle.classList.toggle('muted', !vehiclePrice);
+      rowState.classList.toggle('muted',   !statePrice);
+    }
+
+    /* ---------- BANK SECTION ---------- */
+    function toggleBank() {
+      const bankSection = document.getElementById('bankSection');
+      const isOpen = bankSection.classList.contains('show');
+
+      if (!isOpen) {
+        bankSection.classList.add('show');
+        setTimeout(() => {
+          bankSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 150);
+      } else {
+        bankSection.classList.remove('show');
+      }
+    }
+
+    /* ---------- CANCEL: reset everything ---------- */
+    function cancelBooking() {
+      if (!confirm('Cancel this booking? All your details will be cleared.')) return;
+
+      const form = document.getElementById('bookingForm');
+      form.reset();
+
+      // Hide price box
+      document.getElementById('priceBox').classList.remove('show');
+      document.getElementById('vehiclePrice').textContent = '—';
+      document.getElementById('statePrice').textContent   = '—';
+      document.getElementById('totalPrice').textContent   = '₦0';
+      document.getElementById('rowVehicle').classList.add('muted');
+      document.getElementById('rowState').classList.add('muted');
+
+      // Hide other-task textarea
+      document.getElementById('otherTaskBox').classList.remove('show');
+      document.getElementById('otherTask').required = false;
+
+      // Hide bank section
+      document.getElementById('bankSection').classList.remove('show');
+
+      // Scroll back to top of form
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* ---------- SUBMIT ---------- */
+    function handleSubmit(event) {
+      event.preventDefault();
+
+      const vehicle   = document.getElementById('vehicle').value;
+      const task      = document.getElementById('task').value;
+      const otherTask = document.getElementById('otherTask').value.trim();
+      const state     = document.getElementById('state').value;
+      const total     = document.getElementById('totalPrice').textContent;
+      const bank      = document.getElementById('bank').value;
+      const acct      = document.getElementById('accountNumber').value;
+      const name      = document.getElementById('accountName').value;
+
+      if (!vehicle || !task || !state) {
+        alert('Please fill in vehicle type, task type, and state.');
+        return;
+      }
+
+      if (task === 'other' && !otherTask) {
+        alert('Please describe what you want to do in the "Others" box.');
+        return;
+      }
+
+      if (!bank || !acct || !name) {
+        alert('Please complete the bank payment details (bank, account number, account name).');
+        return;
+      }
+
+      const finalTask = task === 'other' ? 'Other: ' + otherTask : task;
+
+      alert(
+        '✅ Booking Submitted!\n\n' +
+        'Vehicle: ' + vehicle + '\n' +
+        'Task: ' + finalTask + '\n' +
+        'State: ' + state + '\n' +
+        'Total: ' + total + '\n' +
+        'Bank: ' + bank + '\n' +
+        'Account: ' + acct + '\n' +
+        'Name: ' + name
+      );
+
+      // Later: replace with a fetch() to your Python backend.
+    }
+  </script>
+</body>
+</html>
