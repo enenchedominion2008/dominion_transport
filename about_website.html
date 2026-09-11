@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dominion Transport Solutions · About</title>
+  <style>
+    /* ---------- RESET & BASE ---------- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f7fafd;
+      color: #0b2a3b;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* ---------- NAVBAR ---------- */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      padding: 1rem 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 4px 24px rgba(10, 42, 59, 0.06);
+      z-index: 1000;
+      transition: padding 0.3s ease;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: baseline;
+      gap: 0.35rem;
+      font-size: 1.35rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0a2a3b;
+      text-decoration: none;
+    }
+
+    .nav-brand span.accent {
+      font-weight: 300;
+      color: #2d9cdb;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #2c4a5e;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+      position: relative;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #2d9cdb;
+      transition: width 0.25s ease;
+    }
+
+    .nav-links a:hover {
+      color: #0a2a3b;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* ---------- HERO SECTION (FULL SCREEN IMAGE) ---------- */
+    .hero {
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: linear-gradient(145deg, #0a1c2b 0%, #12354d 100%);
+    }
+
+    .hero img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      z-index: 1;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(10, 28, 43, 0.35) 0%, rgba(10, 28, 43, 0.75) 100%);
+      z-index: 2;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      text-align: center;
+      color: #ffffff;
+      padding: 2rem;
+      max-width: 900px;
+      animation: fadeUp 1s ease both;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.2rem, 6vw, 4.2rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero-content h1 span {
+      font-weight: 300;
+      color: #7dc9f0;
+    }
+
+    .hero-content p {
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-weight: 400;
+      color: rgba(255, 255, 255, 0.9);
+      max-width: 640px;
+      margin: 0 auto 2rem;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    /* scroll indicator */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 3;
+      color: rgba(255, 255, 255, 0.85);
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+      animation: bounce 2.2s infinite;
+    }
+
+    .scroll-hint .arrow {
+      width: 22px;
+      height: 22px;
+      border-right: 2px solid rgba(255, 255, 255, 0.9);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.9);
+      transform: rotate(45deg);
+    }
+
+    @keyframes bounce {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateX(-50%) translateY(0);
+      }
+      40% {
+        transform: translateX(-50%) translateY(-10px);
+      }
+      60% {
+        transform: translateX(-50%) translateY(-5px);
+      }
+    }
+
+    /* ---------- MAIN CONTENT ---------- */
+    .main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem 4rem;
+    }
+
+    /* section title */
+    .section-label {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      color: #2d9cdb;
+      margin-bottom: 0.75rem;
+      border-left: 3px solid #2d9cdb;
+      padding-left: 0.75rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: #0a2a3b;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .section-desc {
+      font-size: 1.05rem;
+      color: #5e7a8c;
+      max-width: 700px;
+      margin-bottom: 3.5rem;
+    }
+
+    /* features grid */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.75rem;
+      margin-bottom: 6rem;
+    }
+
+    .feature-card {
+      background: #ffffff;
+      padding: 2.2rem 1.8rem;
+      border-radius: 24px;
+      box-shadow: 0 16px 32px -14px rgba(10, 42, 59, 0.12);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: 1px solid rgba(45, 156, 219, 0.08);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 24px 44px -16px rgba(10, 42, 59, 0.2);
+    }
+
+    .feature-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #2d9cdb 0%, #1d7bb0 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.25rem;
+      color: #ffffff;
+      box-shadow: 0 8px 18px -6px rgba(45, 156, 219, 0.45);
+    }
+
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-bottom: 0.6rem;
+      color: #0a2a3b;
+    }
+
+    .feature-card p {
+      font-size: 0.92rem;
+      color: #5e7a8c;
+      line-height: 1.65;
+    }
+
+    /* ---------- CTA SECTION (SIGN UP ONLY) ---------- */
+    .cta-section {
+      background: linear-gradient(145deg, #0a1c2b 0%, #12354d 100%);
+      border-radius: 36px;
+      padding: 4.5rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 32px 64px -20px rgba(10, 42, 59, 0.5);
+    }
+
+    .cta-section::before {
+      content: "";
+      position: absolute;
+      top: -60%;
+      right: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(45, 156, 219, 0.35) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .cta-section::after {
+      content: "";
+      position: absolute;
+      bottom: -50%;
+      left: -10%;
+      width: 350px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(45, 156, 219, 0.22) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    .cta-section > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    .cta-section h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+      font-size: 1.05rem;
+      color: rgba(255, 255, 255, 0.8);
+      max-width: 520px;
+      margin: 0 auto 2.5rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1.25rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* shared button style */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem 2.6rem;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      border-radius: 60px;
+      cursor: pointer;
+      text-decoration: none;
+      border: none;
+      transition: all 0.25s ease;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    /* sign up – bright accent (now the only button) */
+    .btn-signup {
+      background: #2d9cdb;
+      color: #ffffff;
+      box-shadow: 0 12px 28px -8px rgba(45, 156, 219, 0.65);
+    }
+
+    .btn-signup:hover {
+      background: #1d7bb0;
+      transform: translateY(-3px);
+      box-shadow: 0 18px 34px -10px rgba(45, 156, 219, 0.75);
+    }
+
+    .btn:active {
+      transform: translateY(-1px) scale(0.98);
+    }
+
+    /* ---------- FOOTER ---------- */
+    .footer {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      font-size: 0.82rem;
+      color: #839eae;
+      background: #f7fafd;
+      border-top: 1px solid #e2edf5;
+      margin-top: 4rem;
+    }
+
+    .footer strong {
+      color: #2c4a5e;
+      font-weight: 600;
+    }
+
+    /* ---------- RESPONSIVE ---------- */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0.85rem 1.25rem;
+      }
+
+      .nav-links {
+        gap: 1.2rem;
+      }
+
+      .nav-links a {
+        font-size: 0.82rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.2rem;
+      }
+
+      .main-content {
+        padding: 4rem 1.25rem 2rem;
+      }
+
+      .cta-section {
+        padding: 3.5rem 1.5rem;
+        border-radius: 28px;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .btn {
+        width: 100%;
+        max-width: 320px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-links {
+        display: none;
+      }
+
+      .hero-content p {
+        font-size: 0.95rem;
+      }
+
+      .feature-card {
+        padding: 1.8rem 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ---------- NAVBAR ---------- -->
+  <nav class="navbar">
+    <a href="#" class="nav-brand">
+      Dominion <span class="accent">Transport</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#features">Services</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- ---------- HERO (FULL SCREEN IMAGE) ---------- -->
+  <section class="hero" id="about">
+    <img src="ChatGPTImage.png" alt="Dominion Transport">
+    <div class="hero-content">
+      <h1>Moving the World,<br><span>One Delivery at a Time.</span></h1>
+      <p>Dominion Transport Solutions connects people, businesses, and communities with reliable, efficient, and modern logistics — across the globe.</p>
+    </div>
+    <div class="scroll-hint">
+      <span>Scroll to explore</span>
+      <div class="arrow"></div>
+    </div>
+  </section>
+
+  <!-- ---------- MAIN CONTENT ---------- -->
+  <main class="main-content">
+
+    <!-- ABOUT -->
+    <span class="section-label">Who We Are</span>
+    <h2 class="section-title">Built for the future of transport.</h2>
+    <p class="section-desc">
+      From coast to coast and across borders, Dominion Transport Solutions delivers more than packages — we deliver trust. Our network of drivers, partners, and smart logistics technology makes every shipment safe, tracked, and on time.
+    </p>
+
+    <!-- FEATURES / SERVICES -->
+    <div class="features" id="features">
+      <div class="feature-card">
+        <div class="feature-icon">🚚</div>
+        <h3>Nationwide Delivery</h3>
+        <p>Fast, dependable ground and air freight across all 50 states and beyond, with real-time tracking on every order.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📦</div>
+        <h3>Smart Warehousing</h3>
+        <p>Secure, climate-controlled storage facilities with AI-powered inventory management and same-day dispatch.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌍</div>
+        <h3>Global Freight</h3>
+        <p>International shipping made simple — customs clearance, ocean freight, and air cargo all under one roof.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Express Logistics</h3>
+        <p>Urgent shipment? Our express fleet guarantees priority pickup and delivery within hours, not days.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Live Analytics</h3>
+        <p>Track every mile, monitor fuel efficiency, and optimise routes with our cloud-based dashboard.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤝</div>
+        <h3>Dedicated Support</h3>
+        <p>A real human is available 24/7 to help with quotes, tracking, and any logistics challenge you face.</p>
+      </div>
+    </div>
+
+    <!-- ---------- CTA: SIGN UP ONLY ---------- -->
+    <section class="cta-section" id="contact">
+      <h2>Ready to move with Dominion?</h2>
+      <p>Join thousands of businesses and individuals who trust Dominion Transport Solutions for their logistics needs.</p>
+      <div class="cta-buttons">
+        <!-- SIGN UP BUTTON → redirects to login.html -->
+        <a href="login.html" class="btn btn-signup">Sign Up Free</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ---------- FOOTER ---------- -->
+  <footer class="footer">
+    &copy; 2025 <strong>Dominion Transport Solutions</strong>. All rights reserved. · Built for reliability.
+  </footer>
+
+</body>
+</html>Split login page with image
+Got it! You already sent both files. Here's exactly what needs to change.
+
+The problem
+In your about page (about_websit.html), the Sign Up button currently says:
+
+html
+Copy
+Download
+Run
+<a href="signup.html" class="btn btn-signup">Sign Up Free</a>
+But signup.html doesn't exist — so clicking it gives you a "file not found" error. You want it to go to login.html instead.
+
+The fix
+In your about page file, find this block near the bottom:
+
+html
+Copy
+Download
+Run
+<div class="cta-buttons">
+  <!-- SIGN UP BUTTON -->
+  <a href="signup.html" class="btn btn-signup">Sign Up Free</a>
+  <!-- LOGIN BUTTON — links to your existing login page -->
+  <a href="login.html" class="btn btn-login">Log In</a>
+</div>
+Replace it with this:
+
+html
+Copy
+Download
+Run
+<div class="cta-buttons">
+  <!-- SIGN UP BUTTON → now goes to login.html -->
+  <a href="login.html" class="btn btn-signup">Sign Up Free</a>
+  <!-- LOGIN BUTTON → goes to login.html -->
+  <a href="login.html" class="btn btn-login">Log In</a>
+</div>
+That's the only change you need to make in the about page. The login page file itself needs no changes.
+
+How to set it up on your computer
+Both files must be in the same folder, and the filenames must match exactly what's in the href.
+
+Rename your files like this:
+
+Your file	Rename to
+about page code	about_websit.html (or about.html — just be consistent)
+login page code	login.html
+Then in the about page, make sure the href matches the login file's name:
+
+html
+Copy
+Download
+Run
+<a href="login.html" class="btn btn-signup">Sign Up Free</a>
+<a href="login.html" class="btn btn-login">Log In</a>
+Folder layout should look like this:
+
+text
+Copy
+Download
+📁 my-website/
+   ├── about_websit.html
+   ├── login.html
+   ├── ChatGPT.png
+   └── ChatGPTImage.png
+Now when you open about_websit.html, scroll to the bottom, and click Sign Up Free or Log In — both will take you to login.html. ✅
+
+Optional: a small improvement
+If you want the Sign Up button to open the sign-up state of the login page (e.g., showing "Create account" instead of "Sign in"), you can add a URL parameter:
+
+html
+Copy
+Download
+Run
+<a href="login.html?mode=signup" class="btn btn-signup">Sign Up Free</a>
+Then on the login page you'd need a tiny bit of JavaScript to detect ?mode=signup and change the heading. Let me know if you want that — happy to add it.
+
+alright since i have sent you both codes i want you to modify something for me in the about page insted for it to be two buttons just make it one button that is signup for free only
+then wen that button is taped it would redirect me to the login.html that i have here
+Here's your modified about page (about_websit.html) with only one button — "Sign Up Free" — that redirects to login.html.
+
+I only changed the CTA button block, but I'm sending you the full updated code so you can just copy and replace the whole file.
+
+html
+Copy
+Download
+Run
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dominion Transport Solutions · About</title>
+  <style>
